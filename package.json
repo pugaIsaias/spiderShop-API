@@ -1,0 +1,20 @@
+{
+  "name": "spiderShop-API",
+  "version": "1.0.0",
+  "description": "The back end API for the spiderShop. The joke is that it's a webshop.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pugaIsaias/spiderShop-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pugaIsaias/spiderShop-API/issues"
+  },
+  "homepage": "https://github.com/pugaIsaias/spiderShop-API#readme"
+}

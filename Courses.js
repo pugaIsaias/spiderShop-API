@@ -1,4 +1,4 @@
-const Courses = [
+const courses = [
   {
     id: 0,
     name: "taller 5 lenguajes del amor",
@@ -15,4 +15,4 @@ const Courses = [
   },
 ];
 
-module.exports = Courses;
+module.exports = courses;

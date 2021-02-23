@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-
+const courses = require("./routes/api/courses");
 const app = express();
 
 app.use(bodyParser.json());
@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/courses", require("./routes/api/courses"));
+app.use("/api/courses", courses);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));

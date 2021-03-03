@@ -1,4 +1,28 @@
 const courses = require("../Courses");
+const { rdb } = require("../services/firebase/firebase");
+
+exports.createCourse = (req, res, next) => {
+  const image = req.file;
+  console.log(image);
+
+  const newCourse = {
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    banner: req.body.banner,
+    link: req.body.link,
+  };
+
+  rdb
+    .ref("courses")
+    .push(newCourse)
+    .then((ref) => {
+      res.status(201).json({
+        message: "Curso agregado correctamente",
+        product: { id: ref.key, ...newCourse },
+      });
+    });
+};
 
 exports.getCourses = (req, res) => res.status(200).json(courses);
 

@@ -18,13 +18,19 @@ exports.createCourse = (req, res, next) => {
     .push(newCourse)
     .then((ref) => {
       res.status(201).json({
-        message: "Curso agregado correctamente",
+        msg: "Curso agregado correctamente",
         product: { id: ref.key, ...newCourse },
       });
     });
 };
 
-exports.getCourses = (req, res) => res.status(200).json(courses);
+exports.getCourses = (req, res) => {
+  rdb
+    .ref("courses")
+    .get()
+    .then((dataSnapShot) => res.status(200).json(dataSnapShot))
+    .catch((error) => res.status(400).json({ error }));
+};
 
 exports.getCourse = (req, res) => {
   const found = courses.some((course) => course.id === parseInt(req.params.id));

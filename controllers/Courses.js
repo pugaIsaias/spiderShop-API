@@ -53,6 +53,21 @@ exports.getCourse = (req, res, next) => {
     .catch((error) => res.status(400).json({ error: error }));
 };
 
+exports.updateCourse = (req, res, next) => {
+  const courseId = req.params.id;
+  if (req.body.price) {
+    req.body.price = parseFloat(req.body.price);
+  }
+  rdb
+    .ref("courses")
+    .child(courseId)
+    .update({
+      ...req.body,
+    })
+    .then(() => res.status(201).json({ id: courseId, ...req.body }))
+    .catch((error) => res.status(400).json({ error: error }));
+};
+
 exports.deleteCourse = (req, res, next) => {
   const courseId = req.params.id;
   rdb

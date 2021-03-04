@@ -11,6 +11,8 @@ router.get("/", courses.getCourses);
 //Get single course
 router.get("/:id", courses.getCourse);
 
+router.patch("/:id", courses.updateCourse);
+
 //Delete single course
 router.delete("/:id", courses.deleteCourse);
 

@@ -11,4 +11,7 @@ router.get("/", courses.getCourses);
 //Get single course
 router.get("/:id", courses.getCourse);
 
+//Delete single course
+router.delete("/:id", courses.deleteCourse);
+
 module.exports = router;

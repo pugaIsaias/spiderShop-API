@@ -23,7 +23,7 @@ exports.createCourse = (req, res, next) => {
     });
 };
 
-exports.getCourses = (req, res) => {
+exports.getCourses = (req, res, next) => {
   rdb
     .ref("courses")
     .get()
@@ -51,4 +51,18 @@ exports.getCourse = (req, res, next) => {
       res.status(200).json({ ...course });
     })
     .catch((error) => res.status(400).json({ error: error }));
+};
+
+exports.deleteCourse = (req, res, next) => {
+  const courseId = req.params.id;
+  rdb
+    .ref("courses")
+    .child(courseId)
+    .remove()
+    .then(() =>
+      res
+        .status(200)
+        .json({ msg: `curso con id:${courseId} removido` })
+        .catch((error) => res.status(400).json({ error: error }))
+    );
 };

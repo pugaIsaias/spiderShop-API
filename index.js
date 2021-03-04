@@ -1,9 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const courses = require("./routes/api/courses");
+const multer = require("multer");
+
+const coursesRoutes = require("./routes/api/courses");
 const app = express();
 
+const serverConfig = require("./config/server-config");
+const { server } = require("./config/server-config");
+
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+//app.use(multer({ dest: "./public/images" }).single("image"));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -15,7 +22,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/api/courses", courses);
+app.use("/api/courses", coursesRoutes);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(serverConfig.port, serverConfig.ip, () =>
+  console.log(`Server started at ${serverConfig.server}: ${serverConfig.port}`)
+);

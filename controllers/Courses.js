@@ -1,4 +1,3 @@
-const courses = require("../Courses");
 const { rdb } = require("../services/firebase/firebase");
 
 exports.createCourse = (req, res, next) => {
@@ -28,7 +27,14 @@ exports.getCourses = (req, res) => {
   rdb
     .ref("courses")
     .get()
-    .then((dataSnapShot) => res.status(200).json(dataSnapShot))
+    .then((dataSnapShot) => {
+      let courses = dataSnapShot.val();
+      courses = Object.keys(courses).map((key) => ({
+        id: key,
+        ...courses[key],
+      }));
+      res.status(200).json(courses);
+    })
     .catch((error) => res.status(400).json({ error }));
 };
 

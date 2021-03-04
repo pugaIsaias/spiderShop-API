@@ -38,14 +38,17 @@ exports.getCourses = (req, res) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.getCourse = (req, res) => {
-  const found = courses.some((course) => course.id === parseInt(req.params.id));
-
-  found
-    ? res
-        .status(200)
-        .json(courses.filter((course) => course.id === parseInt(req.params.id)))
-    : res
-        .status(400)
-        .json({ msg: `No member with the id of ${req.params.id}` });
+exports.getCourse = (req, res, next) => {
+  const courseId = req.params.id;
+  rdb
+    .ref("courses")
+    .child(courseId)
+    .once("value", (snapshot) => {
+      let course = snapshot.val();
+      if (course != null) {
+        course = { id: courseId, ...snapshot.val() };
+      }
+      res.status(200).json({ ...course });
+    })
+    .catch((error) => res.status(400).json({ error: error }));
 };

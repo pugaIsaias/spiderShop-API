@@ -1,6 +1,6 @@
 const { rdb } = require("../services/firebase/firebase");
 
-exports.createCourse = (req, res, next) => {
+exports.createCourse = async (req, res, next) => {
   const image = req.file;
   console.log(image);
 
@@ -23,7 +23,7 @@ exports.createCourse = (req, res, next) => {
     });
 };
 
-exports.getCourses = (req, res, next) => {
+exports.getCourses = async (req, res, next) => {
   rdb
     .ref("courses")
     .get()
@@ -38,7 +38,7 @@ exports.getCourses = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.getCourse = (req, res, next) => {
+exports.getCourse = async (req, res, next) => {
   const courseId = req.params.id;
   rdb
     .ref("courses")
@@ -53,7 +53,7 @@ exports.getCourse = (req, res, next) => {
     .catch((error) => res.status(400).json({ error: error }));
 };
 
-exports.updateCourse = (req, res, next) => {
+exports.updateCourse = async (req, res, next) => {
   const courseId = req.params.id;
   if (req.body.price) {
     req.body.price = parseFloat(req.body.price);
@@ -68,7 +68,7 @@ exports.updateCourse = (req, res, next) => {
     .catch((error) => res.status(400).json({ error: error }));
 };
 
-exports.deleteCourse = (req, res, next) => {
+exports.deleteCourse = async (req, res, next) => {
   const courseId = req.params.id;
   rdb
     .ref("courses")

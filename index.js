@@ -10,7 +10,6 @@ const { server } = require("./config/server-config");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-//app.use(multer({ dest: "./public/images" }).single("image"));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");

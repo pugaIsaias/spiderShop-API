@@ -9,7 +9,7 @@ exports.createCourse = async (req, res, next) => {
     description: req.body.description,
     price: req.body.price,
     banner: req.body.banner,
-    link: req.body.link,
+    link: null,
   };
 
   rdb
@@ -18,7 +18,7 @@ exports.createCourse = async (req, res, next) => {
     .then((ref) => {
       res.status(201).json({
         msg: "Curso agregado correctamente",
-        product: { id: ref.key, ...newCourse },
+        product: { id: ref.key, ...newCourse, link: "/" + ref.key },
       });
     });
 };

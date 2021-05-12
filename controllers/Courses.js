@@ -1,4 +1,5 @@
 const { rdb } = require("../services/firebase/firebase");
+const CourseDB = require("../models/course");
 
 exports.createCourse = async (req, res, next) => {
   const image = req.file;
@@ -12,21 +13,16 @@ exports.createCourse = async (req, res, next) => {
     link: null,
   };
 
-  rdb
-    .ref("courses")
-    .push(newCourse)
-    .then((ref) => {
-      res.status(201).json({
-        msg: "Curso agregado correctamente",
-        product: { id: ref.key, ...newCourse, link: "/" + ref.key },
-      });
+  CourseDB.createCourse(newCourse).then((ref) => {
+    res.status(201).json({
+      msg: "Curso agregado correctamente",
+      product: { id: ref.key, ...newCourse, link: "/" + ref.key },
     });
+  });
 };
 
 exports.getCourses = async (req, res, next) => {
-  rdb
-    .ref("courses")
-    .get()
+  CourseDB.getCourses()
     .then((dataSnapShot) => {
       let courses = dataSnapShot.val();
       courses = Object.keys(courses).map((key) => ({
@@ -40,9 +36,7 @@ exports.getCourses = async (req, res, next) => {
 
 exports.getCourse = async (req, res, next) => {
   const courseId = req.params.id;
-  rdb
-    .ref("courses")
-    .child(courseId)
+  CourseDB.getCourse(courseId)
     .once("value", (snapshot) => {
       let course = snapshot.val();
       if (course != null) {
@@ -58,9 +52,8 @@ exports.updateCourse = async (req, res, next) => {
   if (req.body.price) {
     req.body.price = parseFloat(req.body.price);
   }
-  rdb
-    .ref("courses")
-    .child(courseId)
+
+  CourseDB.updateCourse(courseId)
     .update({
       ...req.body,
     })
@@ -70,14 +63,9 @@ exports.updateCourse = async (req, res, next) => {
 
 exports.deleteCourse = async (req, res, next) => {
   const courseId = req.params.id;
-  rdb
-    .ref("courses")
-    .child(courseId)
-    .remove()
+  CourseDB.deleteCourse(courseId)
     .then(() =>
-      res
-        .status(200)
-        .json({ msg: `curso con id:${courseId} removido` })
-        .catch((error) => res.status(400).json({ error: error }))
-    );
+      res.status(200).json({ msg: `curso con id:${courseId} removido` })
+    )
+    .catch((error) => res.status(400).json({ error: error }));
 };
